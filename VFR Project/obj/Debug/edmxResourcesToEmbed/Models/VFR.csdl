@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VFRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Garment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FileName" Type="String" MaxLength="2555" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="Category" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Size" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Color" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="VirtualFittings" Relationship="Self.FK__VirtualFi__Garme__403A8C7D" FromRole="Garment" ToRole="VirtualFitting" />
+  </EntityType>
+  <EntityType Name="UserPhoto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="UploadDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="VirtualFittings" Relationship="Self.FK__VirtualFi__UserP__3F466844" FromRole="UserPhoto" ToRole="VirtualFitting" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VirtualFitting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserPhotoId" Type="Int32" Nullable="false" />
+    <Property Name="GarmentId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Garment" Relationship="Self.FK__VirtualFi__Garme__403A8C7D" FromRole="VirtualFitting" ToRole="Garment" />
+    <NavigationProperty Name="UserPhoto" Relationship="Self.FK__VirtualFi__UserP__3F466844" FromRole="VirtualFitting" ToRole="UserPhoto" />
+  </EntityType>
+  <Association Name="FK__VirtualFi__Garme__403A8C7D">
+    <End Role="Garment" Type="Self.Garment" Multiplicity="1" />
+    <End Role="VirtualFitting" Type="Self.VirtualFitting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Garment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VirtualFitting">
+        <PropertyRef Name="GarmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__VirtualFi__UserP__3F466844">
+    <End Role="UserPhoto" Type="Self.UserPhoto" Multiplicity="1" />
+    <End Role="VirtualFitting" Type="Self.VirtualFitting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserPhoto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VirtualFitting">
+        <PropertyRef Name="UserPhotoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VFREntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Garments" EntityType="Self.Garment" />
+    <EntitySet Name="UserPhotoes" EntityType="Self.UserPhoto" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="VirtualFittings" EntityType="Self.VirtualFitting" />
+    <AssociationSet Name="FK__VirtualFi__Garme__403A8C7D" Association="Self.FK__VirtualFi__Garme__403A8C7D">
+      <End Role="Garment" EntitySet="Garments" />
+      <End Role="VirtualFitting" EntitySet="VirtualFittings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__VirtualFi__UserP__3F466844" Association="Self.FK__VirtualFi__UserP__3F466844">
+      <End Role="UserPhoto" EntitySet="UserPhotoes" />
+      <End Role="VirtualFitting" EntitySet="VirtualFittings" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

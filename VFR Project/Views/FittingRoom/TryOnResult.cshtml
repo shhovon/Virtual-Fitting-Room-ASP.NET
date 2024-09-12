@@ -1,0 +1,22 @@
+﻿@model VFR_Project.Controllers.TryOnViewModel
+
+@{
+    ViewBag.Title = "Try On Result";
+}
+
+<h2>Try On Result</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        @if (!string.IsNullOrEmpty(Model.ProcessedImage))
+        {
+            <img src="data:image/png;base64,@Model.ProcessedImage" alt="Your Photo with Garment" class="img-fluid" />
+        }
+        else
+        {
+            <p class="text-danger">Error: Processed image not available.</p>
+        }
+    </div>
+</div>
+
+<a href="@Url.Action("TryOn", new { photoId = Model.UserPhoto.Id })" class="btn btn-primary">Try Another Garment</a>

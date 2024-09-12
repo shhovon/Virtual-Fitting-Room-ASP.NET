@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Upload Garment";
+}
+
+<h2>Upload a New Garment</h2>
+
+@using (Html.BeginForm("UploadGarment", "FittingRoom", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="garmentName">Garment Name:</label>
+        <input type="text" name="garmentName" id="garmentName" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="size">Size:</label>
+        <input type="text" name="size" id="size" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="color">Color:</label>
+        <input type="text" name="color" id="color" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="garmentFile">Upload Garment Image:</label>
+        <input type="file" name="garmentFile" id="garmentFile" class="form-control-file" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload Garment</button>
+}

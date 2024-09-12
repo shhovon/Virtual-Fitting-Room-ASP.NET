@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VFRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Garment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="2555" Nullable="false" />
+    <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Category" Type="nvarchar" MaxLength="500" />
+    <Property Name="Size" Type="nvarchar" MaxLength="500" />
+    <Property Name="Color" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="UserPhoto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="UploadDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VirtualFitting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserPhotoId" Type="int" Nullable="false" />
+    <Property Name="GarmentId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__VirtualFi__Garme__403A8C7D">
+    <End Role="Garment" Type="Self.Garment" Multiplicity="1" />
+    <End Role="VirtualFitting" Type="Self.VirtualFitting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Garment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VirtualFitting">
+        <PropertyRef Name="GarmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__VirtualFi__UserP__3F466844">
+    <End Role="UserPhoto" Type="Self.UserPhoto" Multiplicity="1" />
+    <End Role="VirtualFitting" Type="Self.VirtualFitting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserPhoto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VirtualFitting">
+        <PropertyRef Name="UserPhotoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VFRModelStoreContainer">
+    <EntitySet Name="Garment" EntityType="Self.Garment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserPhoto" EntityType="Self.UserPhoto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VirtualFitting" EntityType="Self.VirtualFitting" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__VirtualFi__Garme__403A8C7D" Association="Self.FK__VirtualFi__Garme__403A8C7D">
+      <End Role="Garment" EntitySet="Garment" />
+      <End Role="VirtualFitting" EntitySet="VirtualFitting" />
+    </AssociationSet>
+    <AssociationSet Name="FK__VirtualFi__UserP__3F466844" Association="Self.FK__VirtualFi__UserP__3F466844">
+      <End Role="UserPhoto" EntitySet="UserPhoto" />
+      <End Role="VirtualFitting" EntitySet="VirtualFitting" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
